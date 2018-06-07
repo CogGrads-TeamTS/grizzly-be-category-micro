@@ -42,6 +42,14 @@ public class CategoryController {
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/categorylist")
+    public Iterable<Category> getCategoryList() {
+        Iterable<Category> categories = categoryRepository.findAll();
+        // This returns a JSON or XML with the users
+
+        return categories;
+    }
+
     @GetMapping(value = "/page")
     public Page<Category> findBySearchTerm(@RequestParam("search") String searchTerm, Pageable pageable) {
 
