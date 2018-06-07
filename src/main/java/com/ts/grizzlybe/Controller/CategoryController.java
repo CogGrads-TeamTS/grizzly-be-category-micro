@@ -34,6 +34,14 @@ public class CategoryController {
 //        return categoryPage;
 //    }
 
+    @GetMapping
+    public @ResponseBody ResponseEntity<Iterable<Category>> getAllCategories() {
+        Iterable<Category> categories = categoryRepository.findAll();
+        // This returns a JSON or XML with the users
+
+        return new ResponseEntity<>(categories, HttpStatus.OK);
+    }
+
     @GetMapping(value = "/page")
     public Page<Category> findBySearchTerm(@RequestParam("search") String searchTerm, Pageable pageable) {
 
@@ -63,13 +71,7 @@ public class CategoryController {
 
 
 
-    @GetMapping
-    public @ResponseBody ResponseEntity<Iterable<Category>> getAllUsers() {
-        Iterable<Category> categories = categoryRepository.findAll();
-        // This returns a JSON or XML with the users
 
-        return new ResponseEntity<>(categories, HttpStatus.OK);
-    }
 
    /* @GetMapping("/sort")
     public @ResponseBody ResponseEntity<Iterable<Category>> getAllUsersSort(@RequestParam String name ) {
