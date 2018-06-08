@@ -11,9 +11,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableEurekaClient
 @EnableFeignClients
 @EnableSwagger2
-public class GrizzlyBeApplication {
+public class CategoryApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(GrizzlyBeApplication.class, args);
+        SpringApplication.run(CategoryApplication.class, args);
     }
 }
