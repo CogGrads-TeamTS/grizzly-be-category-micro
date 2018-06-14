@@ -114,8 +114,8 @@ public class CategoryController {
     public @ResponseBody ResponseEntity getCategory(@PathVariable long id)
     {
         Optional<Category> category =  categoryRepository.findById(id);
-        if (category == null) {
-            return new ResponseEntity<>(Optional.empty(), HttpStatus.BAD_REQUEST);
+        if (!category.isPresent()) {
+            return ResponseEntity.notFound().build();
         }
         else
         {
