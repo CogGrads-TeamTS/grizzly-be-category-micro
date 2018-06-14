@@ -25,6 +25,9 @@ public interface CategoryRepository extends CrudRepository<Category, Long>,Pagin
 
     Page<Category> findBySearchTerm(@Param("search") String searchTerm, Pageable pageable);
 
+    @Query("SELECT c from Category c WHERE c.id IN :ids")
+    List<Category> findBatchCategories(@Param("ids") Long[] catIds);
+
     //String sql = "select * from Category";
      /*@Query("select c from Category c order by c.name asc")
     List<Category> sortByA_Z(String A_Z);

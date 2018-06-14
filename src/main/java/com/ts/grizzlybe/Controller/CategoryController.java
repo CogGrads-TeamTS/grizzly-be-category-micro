@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -109,7 +110,7 @@ public class CategoryController {
 
     } */
 
-    @GetMapping("/load/{id}")
+    @GetMapping("/{id}")
     public @ResponseBody ResponseEntity getCategory(@PathVariable long id)
     {
         Optional<Category> category =  categoryRepository.findById(id);
@@ -121,6 +122,15 @@ public class CategoryController {
             return new ResponseEntity<>(category,HttpStatus.OK);
         }
 
+    }
+
+    @PostMapping("/getBatch")
+    @ResponseBody
+    public HashMap<Long, Category> getCategoriesBatch(@RequestBody Long[] catIds) {
+        List<Category> categories = categoryRepository.findBatchCategories(catIds);
+        HashMap<Long, Category> batched = new HashMap<>();
+        for (Category cat : categories) { batched.put(cat.getId(), cat);}
+        return batched;
     }
 
     @PutMapping("/edit/{id}")
