@@ -51,6 +51,13 @@ public class CategoryController {
         return categories;
     }
 
+    @GetMapping(value = "/{id}")
+    public Optional<Category> getCategory(@PathVariable(value = "id") Long id) {
+        Optional<Category> category = categoryRepository.findById(id);
+        // This returns a JSON or XML with the users
+        return category;
+    }
+
     @GetMapping(value = "/page")
     public Page<Category> findBySearchTerm(@RequestParam("search") String searchTerm, Pageable pageable) {
 
