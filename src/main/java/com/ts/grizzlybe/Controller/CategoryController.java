@@ -111,7 +111,7 @@ public class CategoryController {
     } */
 
     @GetMapping("/{id}")
-    public @ResponseBody ResponseEntity getCategory(@PathVariable long id)
+    public @ResponseBody ResponseEntity getCategory(@PathVariable Long id)
     {
         Optional<Category> category =  categoryRepository.findById(id);
         if (!category.isPresent()) {
