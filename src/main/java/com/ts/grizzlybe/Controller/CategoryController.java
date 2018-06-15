@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.ws.Response;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -126,11 +127,15 @@ public class CategoryController {
 
     @PostMapping("/getBatch")
     @ResponseBody
-    public HashMap<Long, Category> getCategoriesBatch(@RequestBody Long[] catIds) {
+    public ResponseEntity<HashMap<Long, Category>> getCategoriesBatch(@RequestBody Long[] catIds) {
         List<Category> categories = categoryRepository.findBatchCategories(catIds);
         HashMap<Long, Category> batched = new HashMap<>();
         for (Category cat : categories) { batched.put(cat.getId(), cat);}
-        return batched;
+        if (batched.size() > 0) {
+            return new ResponseEntity<>(batched, HttpStatus.OK);
+        }
+        return ResponseEntity.notFound().build();
+
     }
 
     @PutMapping("/edit/{id}")
