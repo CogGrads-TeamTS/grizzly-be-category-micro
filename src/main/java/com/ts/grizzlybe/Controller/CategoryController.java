@@ -128,14 +128,21 @@ public class CategoryController {
     @PostMapping("/getBatch")
     @ResponseBody
     public ResponseEntity<HashMap<Long, Category>> getCategoriesBatch(@RequestBody Long[] catIds) {
-        List<Category> categories = categoryRepository.findBatchCategories(catIds);
-        HashMap<Long, Category> batched = new HashMap<>();
-        for (Category cat : categories) { batched.put(cat.getId(), cat);}
-        if (batched.size() > 0) {
-            return new ResponseEntity<>(batched, HttpStatus.OK);
-        }
-        return ResponseEntity.notFound().build();
+        // verify ids to fetch are passed
+        if (catIds.length < 1) return ResponseEntity.notFound().build();
 
+        // fetch categories in batch from database
+        List<Category> categories = categoryRepository.findBatchCategories(catIds);
+
+        // create hashmap that will be returned
+        HashMap<Long, Category> batched = new HashMap<>();
+
+        // add categories into the hashmap
+        for (Category cat : categories) { batched.put(cat.getId(), cat);}
+
+        // return the appropriate response
+        if (batched.size() > 0) return new ResponseEntity<>(batched, HttpStatus.OK);
+        return ResponseEntity.notFound().build();
     }
 
     @PutMapping("/edit/{id}")
