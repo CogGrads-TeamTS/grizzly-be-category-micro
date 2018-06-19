@@ -37,19 +37,16 @@ public class CategoryController {
 //    }
 
     @GetMapping
-    public @ResponseBody ResponseEntity<Iterable<Category>> getAllCategories() {
+    public @ResponseBody ResponseEntity<HashMap<String, Iterable<Category>>> getAllCategories() {
         Iterable<Category> categories = categoryRepository.findAll();
         // This returns a JSON or XML with the users
 
-        return new ResponseEntity<>(categories, HttpStatus.OK);
-    }
+        // create hash map
+        HashMap<String, Iterable<Category>> ContentMap = new HashMap<>();
 
-    @GetMapping(value = "/categorylist")
-    public Iterable<Category> getCategoryList() {
-        Iterable<Category> categories = categoryRepository.findAll();
-        // This returns a JSON or XML with the users
+        ContentMap.put("content", categories);
 
-        return categories;
+        return new ResponseEntity<>(ContentMap, HttpStatus.OK);
     }
 
     @GetMapping(value = "/page")
