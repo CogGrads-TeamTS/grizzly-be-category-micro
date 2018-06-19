@@ -1,8 +1,10 @@
 package com.ts.grizzlybe.Controller;
 
+import com.ts.grizzlybe.Client.ProductClient;
 import com.ts.grizzlybe.Model.Category;
 import com.ts.grizzlybe.Repository.CategoryRepository;
 import com.ts.grizzlybe.Service.CategoryService;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.Page;
@@ -25,6 +27,9 @@ public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private ProductClient productClient;
 
 
 
@@ -53,6 +58,18 @@ public class CategoryController {
     public Page<Category> findBySearchTerm(@RequestParam("search") String searchTerm, Pageable pageable) {
 
         Page <Category> categoryPage = categoryService.findBySearchTerm(searchTerm, pageable);
+
+        for(Category category: categoryPage) {
+            try {
+                ResponseEntity<Long> response = productClient.productCount(category.getId());
+                if (response.getStatusCodeValue() == 200) {
+                    category.setCount(response.getBody());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
 
         return categoryPage;
     }

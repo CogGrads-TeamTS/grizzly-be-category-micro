@@ -21,10 +21,14 @@ public class Category {
 
     @Transient
     @JsonInclude
-    private int count;
+    private Long count;
 
-    public int getCount() {
-        return 15; // FIXME Add method to calculate product
+    public Long getCount() {
+        return count;
+    }
+
+    public void setCount(Long count) {
+        this.count = count;
     }
 
     public Long getId() {
