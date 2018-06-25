@@ -30,4 +30,8 @@ public class CategoryServiceImpl implements CategoryService{
     public  Page<Category> findBySearchTerm(String searchTerm, Pageable pageable){
         return categoryRepository.findBySearchTerm(searchTerm, pageable);
     }
+
+    public Page<Category> findNameBySearchTerm(String searchTerm, Pageable pageable){
+        return categoryRepository.findNameBySearchTerm(searchTerm, pageable);
+    }
 }
