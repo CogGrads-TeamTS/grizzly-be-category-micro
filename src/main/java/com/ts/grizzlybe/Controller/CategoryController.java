@@ -4,16 +4,14 @@ import com.ts.grizzlybe.Client.ProductClient;
 import com.ts.grizzlybe.Model.Category;
 import com.ts.grizzlybe.Repository.CategoryRepository;
 import com.ts.grizzlybe.Service.CategoryService;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.ws.Response;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -33,14 +31,6 @@ public class CategoryController {
 
 
 
-//    Method for paginating categories
-//    @GetMapping(value="/page") // Link method to /page endpoint
-//    Page<Category> listPaginatedCategories(Pageable pageable){
-//
-//        Page<Category> categoryPage = categoryService.listAllByPage(pageable);
-//        return categoryPage;
-//    }
-
     @GetMapping
     public @ResponseBody ResponseEntity<HashMap<String, Iterable<Category>>> getAllCategories() {
         Iterable<Category> categories = categoryRepository.findAll();
@@ -52,6 +42,13 @@ public class CategoryController {
         ContentMap.put("content", categories);
 
         return new ResponseEntity<>(ContentMap, HttpStatus.OK);
+    }
+
+//    Method used for the global search to find categories by name
+    @GetMapping(value = "/allByLen")
+    public List<Category> getAllCategoriesByLen(int size, String search){
+
+        return categoryService.findNameBySearchTerm(search, new PageRequest(0, size)).getContent();
     }
 
     @GetMapping(value = "/page")

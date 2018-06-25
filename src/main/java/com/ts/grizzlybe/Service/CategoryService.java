@@ -10,4 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public interface CategoryService {
 //    Page<Category> listAllByPage(Pageable pageable);
     Page<Category> findBySearchTerm(String searchTerm, Pageable pageable);
+
+    Page<Category> findNameBySearchTerm(String searchTerm, Pageable pageable);
 }
